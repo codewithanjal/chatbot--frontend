@@ -1,6 +1,11 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+let API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
+// Resilience: Ensure the URL ends with /api if it's directed at Vercel or localhost
+if (API_URL && !API_URL.endsWith('/api')) {
+    API_URL = API_URL.replace(/\/$/, '') + '/api';
+}
 
 const apiClient = axios.create({
     baseURL: API_URL,
